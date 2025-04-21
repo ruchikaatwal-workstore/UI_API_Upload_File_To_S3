@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Welcome to S3 File Manager</h1>
+    <div>
+        <!-- Two main buttons for navigating to Upload or Browse -->
+        <a href="/upload">
+            <button>Upload File to S3</button>
+        </a>
+        <a href="/browse">
+            <button>Browse S3 Bucket</button>
+        </a>
+    </div>
+    <br><br>
+    <footer>
+        <a href="/">Back to Home</a>
+    </footer>
+</body>
+</html>

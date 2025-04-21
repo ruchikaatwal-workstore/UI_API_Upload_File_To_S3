@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Browse S3 Folder</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        h2 { margin-bottom: 10px; }
+        .breadcrumb { margin-bottom: 20px; }
+        .breadcrumb a { text-decoration: none; color: #007bff; }
+        .section { margin-bottom: 30px; }
+        .file-list, .folder-list { list-style-type: none; padding-left: 0; }
+        .file-list li, .folder-list li { margin: 5px 0; }
+        .btn-delete { margin-top: 15px; background: #dc3545; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        .btn-delete:hover { background: #c82333; }
+        .nav-links { margin-top: 20px; }
+        .btn-select { background: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        .btn-select:hover { background: #0056b3; }
+    </style>
+    <script>
+        function toggleCheckboxes(select) {
+            var checkboxes = document.querySelectorAll('.file-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = select;
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Browsing: {{ folder_name }}/</h2>
+
+    <div class="breadcrumb">
+        {% set parts = folder_name.split('/') %}
+        {% for i in range(parts|length) %}
+            {% set path = '/'.join(parts[:i+1]) %}
+            <a href="{{ url_for('browse_folder', folder_name=path) }}">{{ parts[i] }}</a>{% if not loop.last %} &gt; {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h3>Subfolders</h3>
+        <ul class="folder-list">
+            {% for full_path, display_name in folders %}
+                <li><a href="{{ url_for('browse_folder', folder_name=full_path) }}">{{ display_name }}</a></li>
+            {% else %}
+                <li>No subfolders found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>Files</h3>
+        <form method="POST">
+            <button type="button" class="btn-select" onclick="toggleCheckboxes(true)">Select All</button>
+            <button type="button" class="btn-select" onclick="toggleCheckboxes(false)">Unselect All</button>
+            <ul class="file-list">
+                {% for file in files %}
+                    <li><input type="checkbox" class="file-checkbox" name="files" value="{{ file }}"> {{ file.split('/')[-1] }}</li>
+                {% else %}
+                    <li>No files found in this folder.</li>
+                {% endfor %}
+            </ul>
+            {% if files %}
+                <button type="submit" class="btn-delete">Delete Selected Files</button>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="nav-links">
+        <a href="{{ url_for('browse') }}">Back to Bucket Root</a> |
+        <a href="{{ url_for('index') }}">Home</a>
+    </div>
+
+</body>
+</html>

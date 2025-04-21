@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse S3 Bucket</title>
+</head>
+<body>
+    <h1>Browse S3 Bucket</h1>
+
+    <h2>Top-level Folders</h2>
+    <ul>
+        {% for folder in folders %}
+            <li><a href="{{ url_for('browse_folder', folder_name=folder.Prefix) }}">{{ folder.Prefix }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <footer>
+        <a href="/">Back to Home</a>
+    </footer>
+</body>
+</html>
