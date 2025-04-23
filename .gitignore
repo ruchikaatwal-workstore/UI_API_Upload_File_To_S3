@@ -1,0 +1,10 @@
+# Ignore all Python cache directories
+**/__pycache__/
+
+# Ignore virtual environments anywhere
+**/myenv/
+**/myenv311/
+**/myenv312/
+
+# Ignore all .log files recursively
+**/*.log
